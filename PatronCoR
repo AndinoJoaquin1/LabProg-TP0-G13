@@ -1,0 +1,99 @@
+
+interface Manejador {
+
+    void settearManejador(Manejador siguiente);
+
+    void Manejar(String solicitud);
+}
+
+abstract class manejadorAbstracto implements Manejador {
+
+    private Manejador siguienteManejador;
+
+    public void settearManejador(Manejador siguiente) {
+        this.siguienteManejador = siguiente;
+    }
+
+    public void siguienteManejador(String solicitud) {
+        if (siguienteManejador != null) {
+            siguienteManejador.Manejar(solicitud);
+        } else {
+            System.out.println("Nadie pudo manejar: " + solicitud);
+        }
+    }
+
+    public boolean formatoValido(String solicitud) {
+        return solicitud != null && solicitud.startsWith("0x") && solicitud.length() >= 4;
+    }
+}
+
+class manejadorErroresHardware extends manejadorAbstracto {
+
+    public void Manejar(String solicitud) {
+        if (formatoValido(solicitud)) {
+            char c1 = solicitud.charAt(2), c2 = solicitud.charAt(3);
+            if (c1 == '0' && c2 == '0') {
+                System.out.println("[HW] Manejado por Hardware: " + solicitud);
+            } else {
+                siguienteManejador(solicitud);
+            }
+        } else {
+            System.out.println("Formato invalido");
+        }
+    }
+}
+
+class manejadorErroresEntradaOSalida extends manejadorAbstracto {
+
+    public void Manejar(String solicitud) {
+        char c1 = solicitud.charAt(2), c2 = solicitud.charAt(3);
+        if (c1 == '0' && c2 == '1') {
+            System.out.println("[I/O] Manejado por Entrada/Salida: " + solicitud);
+        } else {
+            siguienteManejador(solicitud);
+        }
+    }
+}
+
+class manejadorErorresSeguridad extends manejadorAbstracto {
+
+    public void Manejar(String solicitud) {
+        char c1 = solicitud.charAt(2), c2 = solicitud.charAt(3);
+        if (c1 == '0' && c2 == '2') {
+            System.out.println("[SEC] Manejado por Seguridad: " + solicitud);
+        } else {
+            siguienteManejador(solicitud);
+        }
+    }
+}
+
+class manejadorErroresAplicacion extends manejadorAbstracto {
+
+    public void Manejar(String solicitud) {
+        char c1 = solicitud.charAt(2), c2 = solicitud.charAt(3);
+        if (c1 == '0' && c2 == '3') {
+            System.out.println("[APP] Manejado por Aplicación: " + solicitud);
+        } else {
+            siguienteManejador(solicitud);
+        }
+    }
+}
+
+public class Manejadores {
+
+    public static void main(String[] args) {
+        Manejador h1 = new manejadorErroresHardware();
+        Manejador h2 = new manejadorErroresEntradaOSalida();
+        Manejador h3 = new manejadorErorresSeguridad();
+        Manejador h4 = new manejadorErroresAplicacion();
+        h1.settearManejador(h2);
+        h2.settearManejador(h3);
+        h3.settearManejador(h4);
+
+        h1.Manejar("0x0000");
+        h1.Manejar("0x01BE");
+        h1.Manejar("0x03FF");
+        h1.Manejar("0xA3B7");
+        h1.Manejar("0x02C1");
+    }
+}
