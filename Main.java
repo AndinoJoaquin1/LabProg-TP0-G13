@@ -16,13 +16,10 @@ public class Main {
             // vacios (0), ocupados (1)
             for (int i = 0; i < disco.length; i++) {
                 for (int j = 0; j < disco[0].length; j++) {
-                    if (Math.random() < 0.33) {
-                        disco[i][j] = -1;
-                    } else if (Math.random() > 0.33 && Math.random() < 0.66) {
-                        disco[i][j] = 0;
-                    } else {
-                        disco[i][j] = 1;
-                    }
+                    double r = Math.random();
+                        if (r < 0.33) disco[i][j] = -1;
+                        else if (r < 0.66) disco[i][j] = 0;
+                        else disco[i][j] = 1;
                 }
             }
 
