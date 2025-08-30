@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 package tp1.concurrencia;
-=======
-package concurrencia;
->>>>>>> ff3094bbd657e3e3616357fe4a5da916f7f536cd
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -26,7 +22,6 @@ public class ProgramaAnalizador {
                     disco[i][j] = 1;
             }
         }
-<<<<<<< HEAD
         System.out.println("Contenido del disco:");
         for (int i = 0; i < disco.length; i++) {
             for (int j = 0; j < disco[i].length; j++) {
@@ -34,8 +29,6 @@ public class ProgramaAnalizador {
             }
             System.out.println();
         }
-=======
->>>>>>> ff3094bbd657e3e3616357fe4a5da916f7f536cd
 
         // genera la pool con 4 hilos
         ExecutorService executor = Executors.newFixedThreadPool(4);

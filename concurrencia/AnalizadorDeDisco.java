@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 package tp1.concurrencia;
-=======
-package concurrencia;
->>>>>>> ff3094bbd657e3e3616357fe4a5da916f7f536cd
 
 import java.util.concurrent.Callable;
 
