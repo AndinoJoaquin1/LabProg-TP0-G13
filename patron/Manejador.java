@@ -1,41 +1,27 @@
-package tpo;
-
-import java.util.Random;
-import java.util.concurrent.Callable;
-
-public abstract class Manejador implements Callable<String> {
-    protected Manejador sigManejador;
-    protected String resultado;
-    protected int opcodeManejador;
-    protected int opcodeEntrada;
-
-    public String call() throws Exception {
-        int tiempoProcesamiento;
-        try {
-            if (puedeProcerla(this.opcodeEntrada)) {
-                Random random = new Random();
-                tiempoProcesamiento = 1000 + random.nextInt(2000);
-                Thread.sleep(tiempoProcesamiento);
-                System.out.println("Se pudo procesar");
-            } else {
-                System.out.println("No se pudo procesar");
-                sigManejador.setOpcodeEntrada(opcodeEntrada);
-                sigManejador.call();
-            }
-        } catch (Exception e) {
-        }
-        return resultado;
-    }
+package tp1.patron;
+public abstract class Manejador {
+       protected  Manejador sigManejador;
+       protected  String codManejador;
+       protected String msgSolucion;
 
     public void setSigManejador(Manejador m) {
-        this.sigManejador = m;
+        this.sigManejador=m;
     }
 
-    public void setOpcodeEntrada(int opcode) {
-        this.opcodeEntrada = opcodeManejador;
+    public boolean formatoValido(String codError) {
+        return codError != null && codError.startsWith("0x") && codError.length() >= 4;
     }
 
-    private boolean puedeProcerla(int opcodeEntrada) {
-        return this.opcodeEntrada == this.opcodeManejador;
+    public void tratarError(String codError){
+         char c1 = codError.charAt(2), c2 = codError.charAt(3);
+        if (c1 == codManejador.charAt(0) && c2 == codManejador.charAt(1)) {
+            System.out.println(msgSolucion + codError);
+        } else {
+               if (sigManejador != null) {
+            sigManejador.tratarError(codError);
+        } else {
+            System.out.println("Nadie pudo manejar el error con codigo: " + codError);
+        }
+        }
     }
 }
